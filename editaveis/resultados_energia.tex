@@ -1,81 +1,73 @@
-\section{Alimentação}
-	\subsection{Testes e Resultados do Sistema de Inversor}
-	
-			\begin{figure}[H]
-				\begin{center}
-					\includegraphics[scale = 0.75]{figuras/Circuito_Inversor}
-					\caption{Circuito do inversor simulado no proteus
-						}
-				\end{center}
-			\end{figure}
-			
-						\begin{figure}[H]
-							\begin{center}
-								\includegraphics[scale = 0.75]{figuras/Simulacao_Inversor}
-								\caption{Circuito do inversor simulado no proteus}
-							\end{center}
-						\end{figure}
+O banco de baterias fornece cerca de 16 V e 5000 mAh. Como o Quirby irá trabalhar em corrente contínua, a energia disponível, e portanto, sua autonomia serão baseados pela quantidade de corrente disponibilizada pela fonte. Sendo assim, equação abaixa demonstra a autonomia teórica do robô.
 
-O inversor foi testado inicialmente em um pequeno transformador de 12V para 127 e apresentou uma nível de tensão adequado 127V, porém neste transformador menor não foi ligado a carga pois este não teria capacidade de suportar a tensão com a carga.
+\begin{equation}
+E = Ah = 5000 mAh = 5 Ah
+\end{equation}
 
-Realizamos então o teste com a bateria veícular e o transformador definitivo e o sistema foi capaz de acionar uma lâmpada e cargas menores, com corrente máxima de saída de 0.85A.
+Sendo E a energia disponível ao sistema. 
+A corrente necessária para manter o pleno funcionamento do sistema equivale a cerca de 3,26 A. Sendo assim, é possível calcular a autonomia teórica em horas do robô.
 
-\subsection{Outros Testes Realizados}
-Foram realizados outros testes com outras topologias de circuito,  porém estes se mostraram insuficientes para o projeto, seja pela carga que este era capaz de suportar ou pela frequência não ser adequada e a sua alta sensibilidade a ruídos externos.
+\begin{equation}
+    Autonomia = \frac{5 Ah}{3,26 A}
+\end{equation}
+\begin{equation}
+    Autonomia = 1,53 h = 92 min
+\end{equation}
 
-Segue algumas imagens de outros inversores confeccionados, 2 deles foram capazes de acionar a cargade uma lamapada de 40W, mas não foram capazes de realizara partida do motor.
+Portanto, desconsiderando as perdas por efeito Joule e por outros fenômenos adversos, a autonomia teórica do robô seria de aproximadamente 92min.
 
-			\begin{figure}[H]
-				\begin{center}
-				\includegraphics[scale = 0.75]{figuras/Inversor}
-				\caption{Layouts e placas de inversor  anteriormente testadas}
-				 	\end{center}
-			\end{figure}
-			
-Foram testadas topologias de osciladores com o CI4047 que é um circuito oscilador de onda quadrada ajustável através de um divisor resistivo, porém quando implementado o circuito se mostrou muito instável na frequência de saída, oscilando entre 56Hz e 62Hz, como o CI4047 não possuia modelo de simulação nem no multisim nem no proteus este circuito não foi simulado.
+Agora ao considerar o motor de sucção do projeto como uma máquina de fluxo, é possível utilizar o conceito do balanço de energia para determinar o fluxo mássico do ar.
 
-Isso poderia fazer com que os transistores entrassem em curto circuito caso houvesse encontro entre as fases das duas ondas e os testes foram parados para que o banco de potência não fosse danificado.
+\begin{equation}
+Q-W = m\left(\Delta e+\frac{\Delta P}{\rho}\right)
+\end{equation}
 
-Também foi testado um circuito com osciladores BC447 e capacitores, que funcionou de com uma frequência próxima de 55 Hz e possuía uma baixa capacidade de fornecer corrente, quando a carga de 40W da lâmpada foi inserida na sua saída, sua tensão abaixou para 114V e a lâmpada ficou vibrando e em luminosidade alta.
+Onde:
+\begin{itemize}
+	\item{Q:} é a quantidade de calor por unidade de tempo que entra na máquina;
+	\item{W:} é a quantidade de trabalho que a máquina recebe ou fornece para o fluido, neste caso o ar;
+	\item{m:} é a quantidade total de massa por unidade de tempo que adentra e sai da máquina. Como não há acumulo de fluido, logo “m” será constante;
+	\item{$\Delta$e:} é a variação de todas as energias internas do fluido.
+	\item {$\Delta$P e \(\rho\):} representam respectivamente, a variação de pressão causada pelo rotor e a densidade do fluido.
 
-Dessa forma o banco de potência  se mostrou insuficiente para gerar a corrente necessária para alimentar a carga.
+Dessa forma, podemos simplificar a equação adotando algumas condições, sendo elas:
 
-\subsection{Dificuldades do projeto do inversor}
-Durante a confecção e testes do inversor, foram encontradas várias adversidades que dificultaram e atrasaram o processo de fabricação do inversor, a primeira delas é a dificuldade de encontrar componentes eletrônicos para esta aplicação no  mercado brasileiro. Pois, o inversor necessita de componentes de alta potência e baixa dissipação térmica quando há passagem de corrente.
+	\item Não há entrada ou saída de calor da máquina; 
+	\item O trabalho será fornecido pela bateria, logo terá valor negativo;
+	\item Não há variação significativa da energia interna do fluido.
 
-Outra dificuldade foi a falta de um laboratório apropriado para trabalhar com circuitos de alta tensão e circuitos de potência, afinal os osciloscópios da UnB - FGA não dispõem de cabos com atenuadores para que seja possível observar uma forma de onda na saída do inversor.
+\end{itemize}
 
-Além da falta de placas de prototipagem adequadas para circuitos de alta corrente também atrasou o projeto, afinal qualquer teste que fosse feito demandava a elaboração de uma placa de circuito impresso, o que atrasava todo o processo de prototipagem.
+Assim, a equação se resume da seguinte forma:
 
-Sendo assim, após o estudo e testes dos vários tipos de inversores, evidenciou-se que seria inviável a fabricação de um inversor com o peso conforme os requisitos de projeto e que atendesse as necessidades do sistema, sendo ainda este composto de vários sistemas de proteção e uma corrente estabilizada.
+\begin{equation}
+W = m\frac{\Delta P}{\rho}
+\end{equation}
 
-Sendo assim, após o estudo e testes dos vários tipos de inversores, evidenciou-se que seria inviável a fabricação de um inversor com o peso conforme os requisitos de projeto e que atendesse as necessidades do sistema, sendo ainda este composto de vários sistemas de proteção e uma corrente estabilizada.
+Portanto, aplicando os valores de W, $\Delta$P e \(\rho\) calcula-se o m:
 
-Seria necessário um maior tempo de estudo e importação de componentes tais como L6386 que é um driver da STD Eletronics próprio para trabalhar altas tensões e temperaturas e com um encapsulamento pequeno e transistores de alta potência para substituir os IRFZ3208 e que possuam uma característica de aquecimento quanto passagem de corrente menor como o transistor IRFP4759BPF, também seria ideal que os componentes do filtro fossem encomendados sob medida para que este ocupe um menor espaço.
 
-Por este motivo foi realizada a compra de um inversor com potência superior ao necessário, como forma de segurança de projeto, para a partida do compressor. A potência necessária para a partida do compressor, já especificada anteriormente é de aproximadamente 1.100W, entretanto foi implementado um modelo de inversor com potência de pico de 3.000 W,  com peso de 2.1 kg.
+\begin{equation}
+m=W\ast\frac{\rho}{\Delta P}
+\end{equation}
 
-\subsection{Inversor Implementado}
-O inversor implementado é, como demonstrado FIGURA XX, da marca Gilgal com capacidade de transformar uma tensão de 12 V para uma de 220V e capacidade de potência de 3.000 W. Possui características como um botão de liga e desliga, entrada de energia e porta USB. Pode aguentar valores de pico altos de até 3.000W, porém diferente de uma ligação direta, onde existe um pico momentâneo de corrente, esse inversor usa uma ativação soft starter, onde aos poucos chega até a corrente necessária para ativação.	
+Considerando:
 
-Diferente de uma ligação direta, que age como um degrau em sua ativação, o soft starter,  faz uma ativação em forma de rampa, o que não exige tanto dos equipamentos em relação ao pico existente, que pode aumentar muito a corrente por alguns segundos e inviabilizar grande parte dos componentes.
-			\begin{figure}[H]
-				\begin{center}
-					\includegraphics[scale = 0.75]{figuras/Inversor_Implementado}
-					\caption{Inversor utilizado no projeto}
-				\end{center}
-			\end{figure}
-\subsection{Testes e Resultados do Sistema de Alimentação}
-Para a verificação do funcionamento em conjunto da bateria, inversor, compressor, dissipador e micro motor, alguns testes foram realizados previamente na Faculdade do Gama da UnB, local que a estrutura estava sendo montada. A medição de tensão foi realizada para verificar se atendia ao valor necessário.
+\begin{itemize}
+	\item W $=$ 24W;
+	\item \(\rho\) $=$ 1,2041 kg/m\textsuperscript{3}
+	\item {$\Delta$P} $=$ 1600 Pa.
+\end{itemize}
 
-			\begin{figure}[H]
-				\begin{center}
-					\includegraphics[scale = 0.75]{figuras/Implementacao_Inversor}
-					\caption{Teste Sistema de Alimentação Implementado.}
-				\end{center}
-			\end{figure}
-			
-Os equipamentos reagiram bem e todos em conjunto, a partida realizada foi em rampa, e não a direta, já que o inversor comprado também possui um soft starter, evitando o problema da alta corrente de pico. Um fator que facilitou a integração com os outros componentes eletrônicos foi também a existência de entrada USB, compatível com parte do material utilizado.
+Temos:
 
-A bateria utilizada, nos testes e implementada no sistema, é da marca Heliar e possui  capacidade de 50A/h, valor que atende a demanda exigida pela transportadora de órgãos. Entretanto, alguns problemas surgiram com o descarregamento desta, fator que causa uma oscilação na alimentação e pode danificar dispositivos mais frágeis, como o GPS. Este problema pode ser resolvido, utilizando uma bateria extra de menor capacidade exclusivamente para o componente.
+\begin{equation}
+m=24\ast\frac{1,2041}{1600}
+\end{equation}
 
+\begin{equation}
+m = 0,018\frac{kg}{s} = 18\frac{g}{s}    
+\end{equation}
+
+\vspace{1\baselineskip}
+Portanto, o Quirby possui um fluxo teórico de aspiração de partículas em cerca de 18 g/s.
